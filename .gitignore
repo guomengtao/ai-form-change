@@ -1,0 +1,15 @@
+# Dependency directories
+node_modules/
+
+# API Keys
+.env
+
+# macOS system files
+.DS_Store
+
+# Chrome extension build files
+*.crx
+*.pem
+
+# Logs
+*.log

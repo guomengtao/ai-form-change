@@ -1,3 +1,8 @@
+// Coze AI Configuration
+const COZE_API_KEY = 'pat_2R3oaaWVgYYzwl6fE17d4TUXI7Vrj2axBHAq9itiSvaQCSfDRdP1TB6EUxK17xBC';
+const COZE_BOT_ID = '7446605387228397603';
+const COZE_API_URL = 'https://api.coze.cn/open_api/v2/chat';
+
 async function extractFormHTML() {
   // Find all forms on the page
   const forms = document.querySelectorAll('form');
@@ -43,8 +48,11 @@ async function extractFormHTML() {
     overflow: auto;
   `;
   
-  // Set blue textarea content with the first form's HTML
-  blueTextarea.value = firstForm.outerHTML;
+  // Set blue textarea content with the first form's HTML and instructions
+  blueTextarea.value = `${firstForm.outerHTML}
+
+---INSTRUCTIONS---
+help me edit the code all radio and checkbox values to set right answers, but do not change other code. If some question has no current answer, choose a most closes one or random to choose one, but must choose one answer.`;
   
   // Store reference to the first form
   const formId = 'first-form';
@@ -101,15 +109,66 @@ async function extractFormHTML() {
   `;
   closeButton.onclick = () => container.remove();
   
-  // Ask AI Button Click Handler (Simulated AI Response)
+  // Ask AI Button Click Handler (Using Coze AI API)
   askAIButton.onclick = async () => {
-    // In a real implementation, this would call an actual AI API
-    const simulatedAIResponse = blueTextarea.value.replace(
-      /(<input\s+type="(radio|checkbox)"[^>]*)\s*(checked)?([^>]*>)/gi, 
-      '$1 checked="checked"$4'
-    );
+    // Disable button during API call
+    askAIButton.disabled = true;
+    askAIButton.textContent = 'Asking AI...';
+    greenTextarea.value = 'Waiting for AI response...';
     
-    greenTextarea.value = simulatedAIResponse;
+    try {
+      // Prepare the API request
+      const response = await fetch(COZE_API_URL, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${COZE_API_KEY}`,
+          'Content-Type': 'application/json',
+          'Connection': 'keep-alive'
+        },
+        body: JSON.stringify({
+          bot_id: COZE_BOT_ID,
+          user: "chrome_extension_user",
+          query: `Modify this HTML form to improve its usability and set appropriate default values. Here's the current form HTML:
+
+${blueTextarea.value}
+
+Instructions:
+1. Optimize form layout and accessibility
+2. Set sensible default values for inputs
+3. Add helpful placeholders or hints
+4. Ensure all inputs have proper labels
+5. Improve form validation if possible
+
+Return ONLY the modified HTML form code.`,
+          stream: false
+        })
+      });
+      
+      // Check if the response is successful
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      // Parse the response
+      const data = await response.json();
+      
+      // Extract the AI's response (adjust based on actual Coze API response structure)
+      const aiResponse = data.messages[0].content;
+      
+      // Update the green textarea with AI's response
+      greenTextarea.value = aiResponse;
+      
+      // Re-enable the button
+      askAIButton.disabled = false;
+      askAIButton.textContent = 'Ask AI to Modify Form';
+    } catch (error) {
+      console.error('AI API Error:', error);
+      greenTextarea.value = `Error: ${error.message}`;
+      
+      // Re-enable the button
+      askAIButton.disabled = false;
+      askAIButton.textContent = 'Ask AI to Modify Form';
+    }
   };
   
   // Apply Button Click Handler
