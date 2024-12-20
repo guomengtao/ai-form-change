@@ -24,13 +24,31 @@ This Chrome extension automatically detects, extracts, and modifies webpage form
 5. Review AI-suggested modifications
 6. Click "Apply Modified Form" to replace the original form
 
+## AI Providers
+
+The extension now supports multiple AI providers:
+- ChatGPT (Default)
+- Moonshot AI
+- Coze AI
+
+### Switching AI Providers
+You can switch between AI providers using the dropdown menu in the form extraction tool. The selected provider will be used for generating form improvements.
+
+#### Current Providers
+1. **ChatGPT**: Default provider, using GPT-4o-mini model for advanced form improvements.
+2. **Moonshot AI**: Alternative provider with different AI capabilities.
+3. **Coze AI**: Another alternative AI provider.
+
+**Note:** Ensure you have valid API keys configured for the providers you wish to use.
+
 ## Technologies
 - JavaScript
 - Chrome Extension API
 - Coze AI API
+- Moonshot AI API
 
 ## Configuration
-Replace the Coze AI API key in [content.js](cci:7://file:///Users/event/Documents/git-files/Chrome-Plugins/ai-form-change/content.js:0:0-0:0) with your own API key.
+Replace the Coze AI API key and Moonshot AI API key in [content.js](cci:7://file:///Users/event/Documents/git-files/Chrome-Plugins/ai-form-change/content.js:0:0-0:0) with your own API keys.
 
 ## License
 MIT License
