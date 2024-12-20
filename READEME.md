@@ -41,6 +41,33 @@ You can switch between AI providers using the dropdown menu in the form extracti
 
 **Note:** Ensure you have valid API keys configured for the providers you wish to use.
 
+## Environment Variables
+
+To use the AI providers, you must set the following environment variables:
+
+- `CHATGPT_API_KEY`: Your OpenAI API key
+- `MOONSHOT_API_KEY`: Your Moonshot AI API key
+- `COZE_API_KEY`: Your Coze AI API key
+- `COZE_BOT_ID`: Your Coze AI Bot ID (optional, has a default)
+
+### Setting Environment Variables
+
+#### macOS/Linux
+```bash
+export CHATGPT_API_KEY='your_openai_api_key'
+export MOONSHOT_API_KEY='your_moonshot_api_key'
+export COZE_API_KEY='your_coze_api_key'
+```
+
+#### Windows (PowerShell)
+```powershell
+$env:CHATGPT_API_KEY='your_openai_api_key'
+$env:MOONSHOT_API_KEY='your_moonshot_api_key'
+$env:COZE_API_KEY='your_coze_api_key'
+```
+
+**Important:** Never commit API keys directly to your repository. Always use environment variables or secure secret management.
+
 ## Technologies
 - JavaScript
 - Chrome Extension API
