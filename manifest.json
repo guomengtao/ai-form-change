@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Automatic Form HTML Extractor",
+  "name": "AI Form Change",
   "version": "1.0",
-  "description": "Automatically finds webpage forms and adds a textarea with form HTML",
+  "description": "AI-powered form modification extension",
   "permissions": ["activeTab"],
   "content_scripts": [
     {
@@ -12,6 +12,6 @@
     }
   ],
   "action": {
-
+    "default_title": "AI Form Change"
   }
 }
